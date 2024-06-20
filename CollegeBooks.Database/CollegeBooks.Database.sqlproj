@@ -61,9 +61,7 @@
     <Folder Include="Scripts" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="Tables\User.sql" />
     <Build Include="Tables\Book.sql" />
-    <Build Include="Tables\UserBook.sql" />
     <PostDeploy Include="PostPublish.sql" />
   </ItemGroup>
   <ItemGroup>
