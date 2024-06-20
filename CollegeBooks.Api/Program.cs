@@ -1,14 +1,15 @@
 using CollegeBooks.Api.Authentication;
 using CollegeBooks.Api.AuthWithIdentity;
-using CollegeBooks.Data.Sql;
+using CollegeBooks.Api.Filters;
 using CollegeBooks.Data.Sql.Repositories;
 using CollegeBooks.Logic.Services;
 using DataModel;
-using LinqToDB.Data;
+using LinqToDB;
+using LinqToDB.AspNet;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using LinqToDB.AspNet;
-using LinqToDB;
+using Microsoft.Extensions.Options;
+using static LinqToDB.Tools.DataProvider.SqlServer.Schemas.ServiceBrokerSchema;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +22,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IBookService, BookService>();
 builder.Services.AddScoped<IBookRepository, BookRepository>();
+
+builder.Services.AddMvcCore(options =>{options.Filters.Add<ValidationFilter>();});
 
 builder.Services.AddAuthorization();
 builder.Services.AddAuthentication().AddCookie(IdentityConstants.ApplicationScheme)
