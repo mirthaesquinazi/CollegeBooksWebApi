@@ -1,8 +1,8 @@
-College books Web Api
+# College books Web Api #
 
 Is a example web api for manage college books .
 
-Technologies Used
+# Technologies Used #
 
 .NET Core 8  - A free, cross-platform, open-source framework for building modern cloud-based and internet-connected applications.
 linq2db - A modern object-database mapper for .NET that provides a clean and elegant way to access relational databases.
@@ -11,7 +11,7 @@ xUnit - A free, open-source, and community-focused unit testing tool for the .NE
 Fluent validations and Assertions 
 And More.
 
-Getting Started
+# Getting Started #
 Please before execute the app, create database with CollegeBooks.Database.publish.xml
 
 This web api has 2 controllers :
