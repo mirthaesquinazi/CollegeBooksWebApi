@@ -1,4 +1,4 @@
-﻿using CollegeBooks.Logic.Dtos;
+﻿using CollegeBooks.Logic.Commands;
 using FluentValidation;
 
 namespace CollegeBooks.Logic.Validator
@@ -8,7 +8,6 @@ namespace CollegeBooks.Logic.Validator
         public UpdateBookCommandValidator()
         {
             RuleFor(x => x.NumberOfReadings).GreaterThan(0);
-
         }
 
     }

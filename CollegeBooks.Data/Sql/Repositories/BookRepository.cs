@@ -1,8 +1,5 @@
 ﻿using DataModel;
 using LinqToDB;
-using LinqToDB.CodeModel;
-using LinqToDB.Concurrency;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace CollegeBooks.Data.Sql.Repositories
 {

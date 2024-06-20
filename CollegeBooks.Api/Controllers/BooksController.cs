@@ -1,7 +1,9 @@
+using CollegeBooks.Logic.Commands;
 using CollegeBooks.Logic.Dtos;
 using CollegeBooks.Logic.Services;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
 
 namespace CollegeBooks.Api.Controllers
 {
@@ -21,7 +23,7 @@ namespace CollegeBooks.Api.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ActionName(nameof(GetByIdAsync))]
-        public async Task<ActionResult<BookDto>> GetByIdAsync(int id)
+        public async Task<ActionResult<BookDto>> GetByIdAsync([Required]int id)
         {
             try
             {
@@ -69,11 +71,11 @@ namespace CollegeBooks.Api.Controllers
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult<IdDto>> InsertAsync(AddBookCommand entity)
+        public async Task<ActionResult<IdDto>> InsertAsync(AddBookCommand command)
         {
             try
             {
-                var newIdDto = await _service.InsertAsync(entity);
+                var newIdDto = await _service.InsertAsync(command);
 
                 return StatusCode(StatusCodes.Status201Created, newIdDto);
             }
@@ -89,7 +91,7 @@ namespace CollegeBooks.Api.Controllers
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<ActionResult> UpdateAsync([FromRoute] int id, UpdateBookCommand entity)
+        public async Task<ActionResult> UpdateAsync([FromRoute] int id, UpdateBookCommand command)
         {
             try
             {
@@ -98,7 +100,7 @@ namespace CollegeBooks.Api.Controllers
                     Id = id
                 };
 
-                var affectedRows = await _service.UpdateAsync(newIdDto, entity);
+                var affectedRows = await _service.UpdateAsync(newIdDto, command);
                 if (affectedRows == 1)
                 {
                     return Ok();
@@ -121,7 +123,12 @@ namespace CollegeBooks.Api.Controllers
         {
             try
             {
-                var affectedRows = await _service.DeleteAsync(id);
+                var newIdDto = new IdDto
+                {
+                    Id = id
+                };
+
+                var affectedRows = await _service.DeleteAsync(newIdDto);
 
                 if (affectedRows == 1)
                 {

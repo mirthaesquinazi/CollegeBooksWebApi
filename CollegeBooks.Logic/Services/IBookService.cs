@@ -1,4 +1,5 @@
-﻿using CollegeBooks.Logic.Dtos;
+﻿using CollegeBooks.Logic.Commands;
+using CollegeBooks.Logic.Dtos;
 
 namespace CollegeBooks.Logic.Services
 {
@@ -8,6 +9,6 @@ namespace CollegeBooks.Logic.Services
         Task<IEnumerable<BookDto>> GetAllAsync();
         Task<IdDto> InsertAsync(AddBookCommand entity);
         Task<int> UpdateAsync(IdDto idToUpdate, UpdateBookCommand entity);
-        Task<int> DeleteAsync(int id);
+        Task<int> DeleteAsync(IdDto idToDelete);
     }
 }

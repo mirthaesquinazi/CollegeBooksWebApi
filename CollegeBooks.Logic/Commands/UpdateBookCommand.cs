@@ -1,10 +1,11 @@
 ﻿using CollegeBooks.Logic.Validator;
 
-namespace CollegeBooks.Logic.Dtos
+namespace CollegeBooks.Logic.Commands
 {
-    public class UpdateBookCommand
+    public class UpdateBookCommand : IValidable
     {
         public int NumberOfReadings { get; set; }
+
         public async Task<string> Validate()
         {
             var errors = string.Empty;

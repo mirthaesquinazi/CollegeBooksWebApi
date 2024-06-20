@@ -2,7 +2,7 @@
 using System.Net;
 using System.Xml.Linq;
 
-namespace CollegeBooks.Logic.Dtos
+namespace CollegeBooks.Logic.Commands
 {
     public class AddBookCommand : IValidable
     {

@@ -1,4 +1,5 @@
 ﻿using CollegeBooks.Data.Sql.Repositories;
+using CollegeBooks.Logic.Commands;
 using CollegeBooks.Logic.Dtos;
 using DataModel;
 using Mapster;
@@ -65,9 +66,9 @@ namespace CollegeBooks.Logic.Services
             return dbResponse;
         }
 
-        public async Task<int> DeleteAsync(int id)
+        public async Task<int> DeleteAsync(IdDto idToDelete)
         {
-            var dbResponse = await _repository.DeleteAsync(id);
+            var dbResponse = await _repository.DeleteAsync(idToDelete.Id);
 
             return dbResponse;
         }

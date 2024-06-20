@@ -15,6 +15,7 @@ namespace CollegeBooks.CommonTests.Builders.Dtos
             {
                 Id = 21,
                 Title="Test Title",
+                PublishingHouseEmail = "testemail@server.com",
                 CreatedAt = DateTime.Now,  
                 UpdatedAt = DateTime.Now
             };
