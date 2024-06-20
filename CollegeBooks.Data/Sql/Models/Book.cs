@@ -7,7 +7,6 @@
 
 using LinqToDB.Mapping;
 using System;
-using System.Collections.Generic;
 
 #pragma warning disable 1573, 1591
 #nullable enable
@@ -21,13 +20,5 @@ namespace DataModel
 		[Column("Title"    , CanBeNull    = false                                                             )] public string   Title     { get; set; } = null!; // varchar(50)
 		[Column("CreatedAt"                                                                                   )] public DateTime CreatedAt { get; set; } // datetime2(7)
 		[Column("UpdatedAt"                                                                                   )] public DateTime UpdatedAt { get; set; } // datetime2(7)
-
-		#region Associations
-		/// <summary>
-		/// FK_UserBook_Book backreference
-		/// </summary>
-		[Association(ThisKey = nameof(Id), OtherKey = nameof(UserBook.BookId))]
-		public IEnumerable<UserBook> UserBooks { get; set; } = null!;
-		#endregion
 	}
 }

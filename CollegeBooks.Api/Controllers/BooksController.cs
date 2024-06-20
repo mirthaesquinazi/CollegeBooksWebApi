@@ -1,5 +1,6 @@
 using CollegeBooks.Logic.Dtos;
 using CollegeBooks.Logic.Services;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CollegeBooks.Api.Controllers
@@ -16,7 +17,33 @@ namespace CollegeBooks.Api.Controllers
             _service = service;
         }
 
+        [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ActionName(nameof(GetByIdAsync))]
+        public async Task<ActionResult<BookDto>> GetByIdAsync(int id)
+        {
+            try
+            {
+                var entity = await _service.GetByIdAsync(id);
+
+                if (entity == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(entity);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(new EventId(), ex, "GetByIdAsync Error: {Message}", ex.Message);
+                return StatusCode(500);
+            }
+        }
+
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<ActionResult<IEnumerable<BookDto>>> GetAllAsync()
         {
             try
@@ -34,7 +61,77 @@ namespace CollegeBooks.Api.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(new EventId(), ex, "GetAllAsync Error: {Message}", ex.Message);
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult<IdDto>> InsertAsync(AddBookCommand entity)
+        {
+            try
+            {
+                var newIdDto = await _service.InsertAsync(entity);
+
+                return StatusCode(StatusCodes.Status201Created, newIdDto);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(new EventId(), ex, "InsertAsync Error: {Message}", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> UpdateAsync([FromRoute] int id, UpdateBookCommand entity)
+        {
+            try
+            {
+                var newIdDto = new IdDto
+                {
+                    Id = id
+                };
+
+                var affectedRows = await _service.UpdateAsync(newIdDto, entity);
+                if (affectedRows == 1)
+                {
+                    return Ok();
+                }
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(new EventId(), ex, "UpdateAsync Error: {Message}", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpDelete("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<ActionResult> DeleteAsync(int id)
+        {
+            try
+            {
+                var affectedRows = await _service.DeleteAsync(id);
+
+                if (affectedRows == 1)
+                {
+                    return Ok();
+                }
+                return NoContent();
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(new EventId(), ex, "DeleteAsync Error: {Message}", ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 

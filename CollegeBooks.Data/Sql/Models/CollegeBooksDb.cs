@@ -37,14 +37,90 @@ namespace DataModel
 
 		partial void InitDataContext();
 
-		public ITable<Book>     Books     => this.GetTable<Book>();
-		public ITable<User>     Users     => this.GetTable<User>();
-		public ITable<UserBook> UserBooks => this.GetTable<UserBook>();
+		public ITable<AspNetRoleClaim>     AspNetRoleClaims      => this.GetTable<AspNetRoleClaim>();
+		public ITable<AspNetRole>          AspNetRoles           => this.GetTable<AspNetRole>();
+		public ITable<AspNetUserClaim>     AspNetUserClaims      => this.GetTable<AspNetUserClaim>();
+		public ITable<AspNetUserLogin>     AspNetUserLogins      => this.GetTable<AspNetUserLogin>();
+		public ITable<AspNetUserRole>      AspNetUserRoles       => this.GetTable<AspNetUserRole>();
+		public ITable<AspNetUserToken>     AspNetUserTokens      => this.GetTable<AspNetUserToken>();
+		public ITable<AspNetUser>          AspNetUsers           => this.GetTable<AspNetUser>();
+		public ITable<Book>                Books                 => this.GetTable<Book>();
+		public ITable<EfMigrationsHistory> EfMigrationsHistories => this.GetTable<EfMigrationsHistory>();
 	}
 
 	public static partial class ExtensionMethods
 	{
 		#region Table Extensions
+		public static AspNetRoleClaim? Find(this ITable<AspNetRoleClaim> table, int id)
+		{
+			return table.FirstOrDefault(e => e.Id == id);
+		}
+
+		public static Task<AspNetRoleClaim?> FindAsync(this ITable<AspNetRoleClaim> table, int id, CancellationToken cancellationToken = default)
+		{
+			return table.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+		}
+
+		public static AspNetRole? Find(this ITable<AspNetRole> table, string id)
+		{
+			return table.FirstOrDefault(e => e.Id == id);
+		}
+
+		public static Task<AspNetRole?> FindAsync(this ITable<AspNetRole> table, string id, CancellationToken cancellationToken = default)
+		{
+			return table.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+		}
+
+		public static AspNetUserClaim? Find(this ITable<AspNetUserClaim> table, int id)
+		{
+			return table.FirstOrDefault(e => e.Id == id);
+		}
+
+		public static Task<AspNetUserClaim?> FindAsync(this ITable<AspNetUserClaim> table, int id, CancellationToken cancellationToken = default)
+		{
+			return table.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+		}
+
+		public static AspNetUserLogin? Find(this ITable<AspNetUserLogin> table, string loginProvider, string providerKey)
+		{
+			return table.FirstOrDefault(e => e.LoginProvider == loginProvider && e.ProviderKey == providerKey);
+		}
+
+		public static Task<AspNetUserLogin?> FindAsync(this ITable<AspNetUserLogin> table, string loginProvider, string providerKey, CancellationToken cancellationToken = default)
+		{
+			return table.FirstOrDefaultAsync(e => e.LoginProvider == loginProvider && e.ProviderKey == providerKey, cancellationToken);
+		}
+
+		public static AspNetUserRole? Find(this ITable<AspNetUserRole> table, string userId, string roleId)
+		{
+			return table.FirstOrDefault(e => e.UserId == userId && e.RoleId == roleId);
+		}
+
+		public static Task<AspNetUserRole?> FindAsync(this ITable<AspNetUserRole> table, string userId, string roleId, CancellationToken cancellationToken = default)
+		{
+			return table.FirstOrDefaultAsync(e => e.UserId == userId && e.RoleId == roleId, cancellationToken);
+		}
+
+		public static AspNetUserToken? Find(this ITable<AspNetUserToken> table, string userId, string loginProvider, string name)
+		{
+			return table.FirstOrDefault(e => e.UserId == userId && e.LoginProvider == loginProvider && e.Name == name);
+		}
+
+		public static Task<AspNetUserToken?> FindAsync(this ITable<AspNetUserToken> table, string userId, string loginProvider, string name, CancellationToken cancellationToken = default)
+		{
+			return table.FirstOrDefaultAsync(e => e.UserId == userId && e.LoginProvider == loginProvider && e.Name == name, cancellationToken);
+		}
+
+		public static AspNetUser? Find(this ITable<AspNetUser> table, string id)
+		{
+			return table.FirstOrDefault(e => e.Id == id);
+		}
+
+		public static Task<AspNetUser?> FindAsync(this ITable<AspNetUser> table, string id, CancellationToken cancellationToken = default)
+		{
+			return table.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+		}
+
 		public static Book? Find(this ITable<Book> table, int id)
 		{
 			return table.FirstOrDefault(e => e.Id == id);
@@ -55,24 +131,14 @@ namespace DataModel
 			return table.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
 		}
 
-		public static User? Find(this ITable<User> table, int id)
+		public static EfMigrationsHistory? Find(this ITable<EfMigrationsHistory> table, string migrationId)
 		{
-			return table.FirstOrDefault(e => e.Id == id);
+			return table.FirstOrDefault(e => e.MigrationId == migrationId);
 		}
 
-		public static Task<User?> FindAsync(this ITable<User> table, int id, CancellationToken cancellationToken = default)
+		public static Task<EfMigrationsHistory?> FindAsync(this ITable<EfMigrationsHistory> table, string migrationId, CancellationToken cancellationToken = default)
 		{
-			return table.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
-		}
-
-		public static UserBook? Find(this ITable<UserBook> table, int id)
-		{
-			return table.FirstOrDefault(e => e.Id == id);
-		}
-
-		public static Task<UserBook?> FindAsync(this ITable<UserBook> table, int id, CancellationToken cancellationToken = default)
-		{
-			return table.FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
+			return table.FirstOrDefaultAsync(e => e.MigrationId == migrationId, cancellationToken);
 		}
 		#endregion
 	}

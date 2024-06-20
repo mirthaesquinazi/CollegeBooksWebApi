@@ -1,5 +1,8 @@
 ﻿using DataModel;
 using LinqToDB;
+using LinqToDB.CodeModel;
+using LinqToDB.Concurrency;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace CollegeBooks.Data.Sql.Repositories
 {
@@ -13,11 +16,44 @@ namespace CollegeBooks.Data.Sql.Repositories
             _context = context;
 
         }
-        public async Task<IEnumerable<Book>> GetAllAsync()
+
+        public async Task<Book?> GetByIdAsync(int id)
         {
-            IEnumerable<Book>? result = from book in _context.GetTable<Book>() select book;
+            var query = _context.GetTable<Book>().Where(x =>x.Id == id);
             
+            var result = await query.FirstOrDefaultAsync();
+
             return result;
+        }
+
+        public async Task<IEnumerable<Book?>> GetAllAsync()
+        {
+            var query = _context.GetTable<Book>();
+
+            IEnumerable<Book>? result = await query.ToListAsync();
+
+            return result;
+        }
+
+        public async Task<int> InsertAsync(Book entity)
+        {
+            var query = await _context.InsertWithIdentityAsync(entity);
+
+            var newId = Convert.ToInt32(query);
+
+            return newId;
+        }
+
+        public async Task<int> UpdateAsync(Book entity)
+        {
+            var affectedRows = await _context.UpdateAsync(entity);
+            return affectedRows;
+        }
+        public async Task<int> DeleteAsync(int id)
+        {
+            var affectedRows = await _context.DeleteAsync(id);
+
+            return affectedRows;
         }
     }
 }
